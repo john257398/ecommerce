@@ -12,6 +12,10 @@ body {
 main{
   flex: 1;
 }
+.btn-primary,.btn-outline-primary{
+  background-color: #f0c040;
+  color: #000000;
+}
 .code-doc{
   text-decoration: none;
 }
@@ -33,6 +37,7 @@ main{
 .site-container{
   transition: 0.4s;
 }
+
 .active-nav{
   left: 0;
 }
@@ -77,4 +82,7 @@ main{
 .checkout-steps >div.active{
   border-bottom: 0.2rem solid #f08000;
   color:#f08000;
+}
+.text-bold{
+  font-weight: bold;
 }

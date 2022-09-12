@@ -25,6 +25,11 @@ import OrderHistoryScreen from "./screens/OrderHistoryScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import { getError } from "./utils";
 import axios from "axios";
+import SearchBox from "./components/SearchBox";
+import SearchScreen from "./screens/SearchScreen";
+import ProtectedRoute from "./components/ProtectedRoute";
+import DashboardScreen from "./screens/DashboardScreen";
+import AdminRoute from "./components/AdminRoute";
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -77,6 +82,7 @@ function App() {
               </Link>
               <Navbar.Toggle aria-controls='basic-navbar-nav' />
               <Navbar.Collapse id='basic-navbar-nav'>
+                <SearchBox />
                 <Nav className='me-auto w-100 justify-content-end'>
                   <Link to='/cart' className='nav-link'>
                     Cart
@@ -115,6 +121,30 @@ function App() {
                       Sign In
                     </Link>
                   )}
+                  {userInfo && userInfo.isAdmin &&(
+                    <NavDropdown title='Admin' id='admin-nav-dropdown'>
+                      <NavDropdown.Item>
+                      <Link className="navLink" to='/admin/dashboard'>
+                        Dashboard
+                      </Link>
+                      </NavDropdown.Item>
+                      <NavDropdown.Item>
+                      <Link className="navLink" to='/admin/productlist'>
+                        Products
+                      </Link>
+                      </NavDropdown.Item>
+                      <NavDropdown.Item>
+                      <Link className="navLink" to='/admin/orderlist'>
+                        Orders
+                      </Link>
+                      </NavDropdown.Item>
+                      <NavDropdown.Item>
+                      <Link className="navLink" to='/admin/userlist'>
+                        Users
+                      </Link>
+                      </NavDropdown.Item>
+                    </NavDropdown>
+                  )}
                 </Nav>
               </Navbar.Collapse>
             </Container>
@@ -132,12 +162,13 @@ function App() {
               <strong>Categories</strong>
             </Nav.Item>
             {categories.map((category) => (
-              <Nav.Item key={category}>
+              <Nav.Item className='my-2' key={category}>
                 <Link
                   to={`/search?category=${category}`}
                   onClick={() => setSidebarIsOpen(false)}
+                  className='link-category'
                 >
-                  <Nav.Link>{category}</Nav.Link>
+                  {category}
                 </Link>
               </Nav.Item>
             ))}
@@ -148,6 +179,7 @@ function App() {
             <Switch>
               <Route path='/product/:slug' component={ProductScreen} />
               <Route path='/cart' component={CartScreen} />
+              <Route path='/search' component={SearchScreen} />
               <Route path='/signin' component={SigninScreen} />
               <Route path='/signup' component={SignupScreen} />
               <Route path='/profile' component={ProfileScreen} />
@@ -156,6 +188,10 @@ function App() {
               <Route path='/placeorder' component={PlaceOrderScreen} />
               <Route path='/order/:id' component={OrderScreen} />
               <Route path='/orderhistory' component={OrderHistoryScreen} />
+
+              {/* Admin Routes    */}
+              <Route path='/admin/dashboard' component={DashboardScreen} />
+
               <Route path='/' component={HomeScreen} />
             </Switch>
           </Container>
